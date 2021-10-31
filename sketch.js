@@ -18,6 +18,7 @@ function preload(){
   stone1 = loadImage("img/stone1.png");
   stone2 = loadImage("img/stone2.png");
   stone3 = loadImage("img/stone3.png");
+  alienS = loadAnimation("img/f1.png","img/f2.png","img/f3.png",)
   bullet1 = loadImage("img/bullet1.png");
   bullet2 = loadAnimation("img/bullet2.png");
   bullet3 = loadAnimation("img/bullet3.png");
@@ -33,6 +34,8 @@ function preload(){
   sound2 = loadSound("l2.mp3");
   sound3 = loadSound("l3.mp3");
   sound4 = loadSound("l4.mp3");
+  scoreS1 = loadImage("img/score+10.png");
+  scoreS2 = loadImage("img/score+20.png");
 }
 
 function setup(){
@@ -70,22 +73,31 @@ function setup(){
   shuttle.setCollider("rectangle", 0,0, 1000,1000)
   shuttle.scale = 0.15
 
-  //life1 = createSprite(windowWidth/2, windowHeight/2-300, 40, 50);
-  //life1.addImage(lifeH);
-  //life1.scale = 0.1;
+ //score10 = createSprite(windowWidth/2, windowHeight/2, 40, 40);
+ //score10.addImage(scoreS1);
+ //score10.visible = false;
 
-  //life2 = createSprite(windowWidth/2+50, windowHeight/2-300, 40,50);
-  //life2.addImage(lifeH);
-  //life2.scale = 0.1;
+ //score20 = createSprite(windowWidth/2, windowHeight/2, 40, 40);
+ //score20.addImage(scoreS2);
+ //score20.visible = false;
 
-  //life3 = createSprite(windowWidth/2+100, windowHeight/2-300, 40, 50);
-  //life3.addImage(lifeH);
-  //life3.scale = 0.1;
+ //life1 = createSprite(windowWidth/2, windowHeight/2-300, 40, 50);
+ //life1.addImage(lifeH);
+ //life1.scale = 0.1;
+
+ //life2 = createSprite(windowWidth/2+50, windowHeight/2-300, 40,50);
+ //life2.addImage(lifeH);
+ //life2.scale = 0.1;
+
+ //life3 = createSprite(windowWidth/2+100, windowHeight/2-300, 40, 50);
+ //life3.addImage(lifeH);
+ //life3.scale = 0.1;
 
  bulletG = new Group();
  obstacle1G = new Group();
  obstacle2G = new Group();
  obstacle3G = new Group();
+ obstacle4G = new Group();
 
 }
 
@@ -153,7 +165,7 @@ function draw() {
   //  frameCount %50 === 0
   //}
 
- var obstacleS =  Math.round(random(1,3));
+ var obstacleS =  Math.round(random(1,4));
 
  if(frameCount %80 === 0){
    if(obstacleS == 1){
@@ -162,8 +174,10 @@ function draw() {
     else if(obstacleS == 2){
       spwanObstacle2();
     }
-     else {
+     else if(obstacleS == 3){
        spwanObstacle3();
+     }else {
+       spwanObstacle4();
      }
  }
 
@@ -171,19 +185,47 @@ function draw() {
    obstacle1G.destroyEach();
    bulletG.destroyEach();
    score = score +10
+   //score10.visible = true;
  } 
 
  if(obstacle2G.isTouching(bulletG)){
    obstacle2G.destroyEach();
    bulletG.destroyEach();
    score = score +10
+   //score10.visible = true;
  }
 
  if(obstacle3G.isTouching(bulletG)){
    obstacle3G.destroyEach();
    bulletG.destroyEach();
    score = score +10
+   //score10.visible = true;
  }
+
+ if(obstacle4G.isTouching(bulletG)){
+    obstacle4G.destroyEach();
+    bulletG.destroyEach();
+    score = score +20
+    //score20.visible = true;
+ }
+
+ if(obstacle1G.isTouching(shuttle)||
+    obstacle2G.isTouching(shuttle)||
+    obstacle3G.isTouching(shuttle)){
+      //life1.visible = false;
+    }
+
+    if(obstacle1G.isTouching(shuttle)||
+    obstacle2G.isTouching(shuttle)||
+    obstacle3G.isTouching(shuttle)){
+      //life2.visible = false;
+    }
+
+    if(obstacle1G.isTouching(shuttle)||
+    obstacle2G.isTouching(shuttle)||
+    obstacle3G.isTouching(shuttle)){
+      //life3.visible = false;
+    }
 
  //if(obstacle1G > windowWidth/2||
  //   obstacle2G > windowWidth/2||
@@ -193,7 +235,8 @@ function draw() {
 
  if(obstacle1G.isTouching(shuttle)||
     obstacle2G.isTouching(shuttle)||
-    obstacle3G.isTouching(shuttle)){
+    obstacle3G.isTouching(shuttle)||
+    obstacle4G.isTouching(shuttle)){
       gameState = END;
     }
   
@@ -222,6 +265,7 @@ else if(gameState === END){
   obstacle1G.destroyEach();
   obstacle2G.destroyEach();
   obstacle3G.destroyEach();
+  obstacle4G.destroyEach();
   bulletG.destroyEach();
 
   if(mousePressedOver(restart)){
@@ -230,7 +274,7 @@ else if(gameState === END){
 
 }
 
- 
+  
   drawSprites();
 
   fill("white");
@@ -254,6 +298,7 @@ function reset(){
   obstacle1G.destroyEach();
   obstacle2G.destroyEach();
   obstacle3G.destroyEach();
+  obstacle4G.destroyEach();
 
   distance = 0;
   score = 0;
@@ -310,4 +355,16 @@ function spwanObstacle3(){
   obstacle3.lifetime = 320;
 
   obstacle3G.add(obstacle3)
+}
+
+function spwanObstacle4(){
+  obstacle4 = createSprite(windowWidth/2-700, random(50, 500), 40, 50);
+  obstacle4.addAnimation("alien", alienS);
+  obstacle4.velocityX = +(10 + distance/200);
+  obstacle4.scale = 0.5
+  //obstacle4.debug = true;
+
+  obstacle4.lifetime = 320;
+
+  obstacle4G.add(obstacle4);
 }
