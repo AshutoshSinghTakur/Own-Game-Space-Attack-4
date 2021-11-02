@@ -81,17 +81,17 @@ function setup(){
  //score20.addImage(scoreS2);
  //score20.visible = false;
 
- //life1 = createSprite(windowWidth/2, windowHeight/2-300, 40, 50);
- //life1.addImage(lifeH);
- //life1.scale = 0.1;
+ life1 = createSprite(windowWidth/2, windowHeight/2-300, 40, 50);
+ life1.addImage(lifeH);
+ life1.scale = 0.1;
 
- //life2 = createSprite(windowWidth/2+50, windowHeight/2-300, 40,50);
- //life2.addImage(lifeH);
- //life2.scale = 0.1;
+ life2 = createSprite(windowWidth/2+50, windowHeight/2-300, 40,50);
+ life2.addImage(lifeH);
+ life2.scale = 0.1;
 
- //life3 = createSprite(windowWidth/2+100, windowHeight/2-300, 40, 50);
- //life3.addImage(lifeH);
- //life3.scale = 0.1;
+ life3 = createSprite(windowWidth/2+100, windowHeight/2-300, 40, 50);
+ life3.addImage(lifeH);
+ life3.scale = 0.1;
 
  bulletG = new Group();
  obstacle1G = new Group();
@@ -119,7 +119,10 @@ function draw() {
 
   space.velocityX = +(5 + distance/200);
 
-  if(distance > 1000){
+  if(distance > 100){
+    //if(){
+    //  sound1.play();
+    //}
     shuttle.changeAnimation("red", shuttleR);
     bullet.changeAnimation("oran",bullet2);
     //frameCount %20  ===0;
